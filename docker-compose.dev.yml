@@ -1,0 +1,45 @@
+name: vite-react
+
+services:
+    client:
+        build:
+            context: ./client
+            dockerfile: Dockerfile.dev
+        ports:
+            - 3000:3000
+        volumes:
+            - type: bind
+              source: ./client
+              target: /home/app
+            - type: volume
+              target: /home/app/node_modules
+    db:
+        image: mongo
+        volumes:
+            - type: volume
+              source: mydbvite
+              target: /data/db
+    api:
+        build:
+            context: ./api
+            dockerfile: Dockerfile
+        ports:
+            - 9500:80
+        volumes:
+            - type: bind
+              source: ./api/src
+              target: /home/app/src
+            - type: volume
+              target: /home/app/node_modules
+    # reverse-proxy:
+    #     build:
+    #         context: ./reverse-proxy
+    #         dockerfile: Dockerfile.dev
+    #     ports:
+    #         - 80:80
+    #     depends_on:
+    #         - api
+    #         - db
+volumes:
+    mydbvite:
+        external: true
