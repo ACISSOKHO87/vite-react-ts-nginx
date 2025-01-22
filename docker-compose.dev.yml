@@ -31,15 +31,7 @@ services:
               target: /home/app/src
             - type: volume
               target: /home/app/node_modules
-    # reverse-proxy:
-    #     build:
-    #         context: ./reverse-proxy
-    #         dockerfile: Dockerfile.dev
-    #     ports:
-    #         - 80:80
-    #     depends_on:
-    #         - api
-    #         - db
+
 volumes:
     mydbvite:
         external: true
